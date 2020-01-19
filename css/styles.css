@@ -92,16 +92,22 @@ section {
 }
 
 .navbar__menu .menu__link:hover {
-    background: rgba(177, 182, 255, 0.5);
+    background: rgba(177, 182, 255, 0.4);
+}
+
+.navbar__menu .menu__link.your-active-class {
+    background: rgba(177, 182, 255, 0.8);
     color: #fff;
     transition: ease 0.5s all;
 }
 
-.navbar__menu .menu__link:hover a {
+.navbar__menu .menu__link.your-active-class a {
     text-decoration: none; 
     color: rgb(255, 255, 255);
     transition: ease 0.5s all;
 }
+
+
 
 /* Header Styles */
 .page__header {

@@ -46,6 +46,7 @@ function createSectionLink(section) {
   const id = section.getAttribute('id');
   const text = section.getAttribute('data-nav');
   const li = document.createElement('li');
+  li.setAttribute('id', `${id}__link`);
   li.className = 'menu__link';
   const link = document.createElement('a');
   link.textContent = text;
@@ -68,16 +69,14 @@ function createNav(sections, nav) {
   nav.appendChild(fragment);
 }
 
-// Add class 'active' to section when near top of viewport
-function activateSection(section) {
-  const active = 'your-active-class';
+// check if section is near top
+function nearTop(section) {
   const allowance = 150;
   const windowY = window.scrollY;
   const sectionTop = section.offsetTop - allowance;
   const sectionBottom = sectionTop + section.offsetHeight;
   const nearTop = ((sectionTop < windowY) && (windowY < sectionBottom));
-  if (nearTop) section.classList.add(active);
-  else section.classList.remove(active);
+  return nearTop;
 }
 
 // Scroll to anchor ID using scrollTO event
@@ -94,8 +93,8 @@ function scrollToAnchor(anchor) {
  *
 */
 
-// Build menu when DOM is loaded
 document.addEventListener("DOMContentLoaded", function(){
+  // Build menu when DOM is loaded
   createNav(sections, nav);
 
   // Scroll to section on link click
@@ -107,10 +106,24 @@ document.addEventListener("DOMContentLoaded", function(){
       scrollToAnchor(target);
     });
   });
+
+  // Set sections as active when near top
+  document.addEventListener('scroll', function() {
+    sections.forEach((section) => {
+      const active = 'your-active-class';
+      const sectionId = section.getAttribute('id');
+      const linkId = `${sectionId}__link`;
+      const link = document.getElementById(linkId);
+      if (nearTop(section)) {
+        section.classList.add(active);
+        link.classList.add(active);
+      } else {
+        section.classList.remove(active);
+        link.classList.remove(active);
+      }
+    });
+  });
 });
 
-// Set sections as active when near top
-document.addEventListener('scroll', function() {
-  sections.forEach((section) => activateSection(section));
-});
+
 
